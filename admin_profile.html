@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block content %}
+<h1>Admin Dashboard</h1>
+<h2>User List</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Is Admin</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.is_admin }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Login History</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Login Time</th>
+      <th>Logout Time</th>
+      <th>Session Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for log in logs %}
+    <tr>
+      <td>{{ log.user.email }}</td>
+      <td>{{ log.login_time }}</td>
+      <td>{{ log.logout_time or 'Still active' }}</td>
+      <td>
+        {% if log.logout_time %} {{ (log.logout_time -
+        log.login_time).total_seconds() // 60 }} minutes {% else %} N/A {% endif
+        %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
